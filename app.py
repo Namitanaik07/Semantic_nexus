@@ -21,3 +21,17 @@ app = FastAPI()
 
 
 templates = Jinja2Templates(directory="templates")
+@app.get("/", response_class=HTMLResponse)
+async def read_root(request: Request):
+    return templates.TemplateResponse("index.html", {"request": request})
+
+@app.post("/ask", response_class=HTMLResponse)
+async def ask_question(request: Request, question: str = Form(...)):
+
+    answer = llm_chain({"question": question})
+
+    return templates.TemplateResponse("result.html", {"request": request, "question": question, "answer": answer})
+
+if __name__ == "__main__":
+    import uvicorn
+    uvicorn.run(app, host="127.0.0.1", port=8000)

@@ -13,3 +13,11 @@ prompt_template = PromptTemplate(
     template="You are an expert in explaining concepts. Please answer the following question in a clear and concise manner: {question}"
 )
 llm_chain = LLMChain(llm=flan_t5, prompt=prompt_template)
+from fastapi import FastAPI, Request, Form
+from fastapi.responses import HTMLResponse
+from fastapi.templating import Jinja2Templates
+
+app = FastAPI()
+
+
+templates = Jinja2Templates(directory="templates")
